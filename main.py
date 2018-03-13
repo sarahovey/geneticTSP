@@ -6,12 +6,11 @@
 #https://pdfs.semanticscholar.org/010b/545848cfd29fe6e83987d494fdd00b486229.pdf 
 #https://gist.github.com/turbofart/3428880 
 
-#Outputs to a text file per professor specification
-#Line 1: distance
-#Lines 2-n: cities in the order they appear in the best tour
 
 import math
 import random
+import time
+import os 
 
 from City import City
 from TourManager import TourManager
@@ -25,9 +24,18 @@ from GA import GA
 #int 2: x coord
 #int 2: y coord
 
+#get user input
+found = False
+while found == False:
+    file_name = raw_input("What's the name of the file? ie 'cities.txt'...\n")
+    if os.path.isfile(file_name):
+        found = True
+    else:
+        print("invalid file name\n")
+        found = False
 #Get data from file
 cities = []
-with open('cities.txt', 'r') as file:
+with open(file_name, 'r') as file:
     line = file.readline()
     while line:
         #Stick current line into new list
@@ -48,12 +56,14 @@ cities = [City.fromList(cty) for cty in cities]
 tourmanager = TourManager()
 for i in range(len(cities)):
     tourmanager.addCity(cities[i])
-    
+
+start_time = time.time()
 #Init a population of individual tours
 pop = Population(tourmanager, len(cities), True);
 
 #print intitual distance
 print("Initial distance: " + str(pop.getFittest().getDistance()))
+
 
 #Evolve population for 100 generations
 ga = GA(tourmanager)
@@ -67,11 +77,13 @@ finalDist = str(pop.getFittest().getDistance())
 bestTour = pop.getFittest()
 print("Finished!")
 print("Final distance: " + finalDist)
-print("Best tour/solution:")
+print("Time to calculate best tour:")
+print(time.time() - start_time)
+print("Best tour:")
 print(bestTour)
 
 #Write to file
-with open('geneticTSP.out', 'a') as fOut:
+with open('geneticTSP.out', 'a') as fOut:      
     fOut.write("%s\n" % (finalDist))
     for i in range(len(bestTour)):
         fOut.write("%s\n" % (bestTour.getCity(i).cid))
