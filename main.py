@@ -55,8 +55,6 @@ pop = Population(tourmanager, len(cities), True);
 #print intitual distance
 print("Initial distance: " + str(pop.getFittest().getDistance()))
 
-#Construction zone:
-
 #Evolve population for 100 generations
 ga = GA(tourmanager)
 pop = ga.evolvePopulation(pop)
@@ -74,7 +72,6 @@ print(bestTour)
 
 #Write to file
 with open('geneticTSP.out', 'a') as fOut:
-    #format sorted values for writing       
     fOut.write("%s\n" % (finalDist))
     for i in range(len(bestTour)):
         fOut.write("%s\n" % (bestTour.getCity(i).cid))

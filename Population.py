@@ -20,7 +20,7 @@ class Population:
         self.tours[key] = value
         
     def __getitem__(self, index):
-        return self.tours[ndex]
+        return self.tours[index]
         
     def saveTour(self, index, tour):
         self.tours[index] = tour
