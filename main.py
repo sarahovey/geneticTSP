@@ -83,7 +83,8 @@ print("Best tour:")
 print(bestTour)
 
 #Write to file
-with open('geneticTSP.out', 'a') as fOut:      
+file_out = file_name + ".tour";
+with open(file_out, 'a') as fOut:      
     fOut.write("%s\n" % (finalDist))
     for i in range(len(bestTour)):
         fOut.write("%s\n" % (bestTour.getCity(i).cid))
